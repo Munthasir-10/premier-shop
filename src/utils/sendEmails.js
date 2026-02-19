@@ -4,7 +4,7 @@ const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
 const CUSTOMER_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_CUSTOMER_TEMPLATE;
 const OWNER_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_OWNER_TEMPLATE;
 const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-const OWNER_EMAIL = import.meta.env.VITE_OWNER_EMAI;
+const OWNER_EMAIL = 'munthasir1010@gmail.com';
 
 export async function sendOrderEmails(form, cart, totalPrice) {
   const orderId = Math.floor(Math.random() * 900000 + 100000);
