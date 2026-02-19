@@ -1,0 +1,42 @@
+.floating-cart {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #e94560;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
+  z-index: 999;
+  transition: transform 0.2s, background 0.3s;
+}
+
+.floating-cart:hover {
+  transform: scale(1.05);
+  background-color: #c73652;
+}
+
+.floating-cart-count {
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.floating-cart-price {
+  font-size: 0.9rem;
+  font-weight: bold;
+  border-left: 1px solid rgba(255,255,255,0.5);
+  padding-left: 10px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .floating-cart {
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 16px;
+  }
+}
