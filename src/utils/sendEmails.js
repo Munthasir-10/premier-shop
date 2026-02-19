@@ -16,51 +16,69 @@ export async function sendOrderEmails(form, cart, totalPrice) {
     image_url: "",
   }));
 
+  // DEBUG - check values before sending
+  console.log('SERVICE_ID:', SERVICE_ID)
+  console.log('CUSTOMER_TEMPLATE_ID:', CUSTOMER_TEMPLATE_ID)
+  console.log('OWNER_TEMPLATE_ID:', OWNER_TEMPLATE_ID)
+  console.log('PUBLIC_KEY:', PUBLIC_KEY)
+  console.log('Customer email:', form.email)
+  console.log('Owner email:', OWNER_EMAIL)
+
   // Customer Email
-  await emailjs.send(
-    SERVICE_ID,
-    CUSTOMER_TEMPLATE_ID,
-    {
-      order_id: orderId,
-      to_email: form.email,
-      email: form.email,
-      orders: orderItems,
-      cost: {
-        shipping: "0.00",
-        tax: "Included",
-        total: totalPrice.toFixed(2),
+  try {
+    await emailjs.send(
+      SERVICE_ID,
+      CUSTOMER_TEMPLATE_ID,
+      {
+        order_id: orderId,
+        to_email: form.email,
+        email: form.email,
+        orders: orderItems,
+        cost: {
+          shipping: "0.00",
+          tax: "Included",
+          total: totalPrice.toFixed(2),
+        },
       },
-    },
-    PUBLIC_KEY,
-  );
+      PUBLIC_KEY,
+    );
+    console.log('Customer email sent successfully!')
+  } catch (err) {
+    console.error('Customer email failed:', err)
+  }
 
   // Owner Email
-  await emailjs.send(
-    SERVICE_ID,
-    OWNER_TEMPLATE_ID,
-    {
-      order_id: orderId,
-      to_email: OWNER_EMAIL,
-      email: OWNER_EMAIL,
-      customer_name: form.name,
-      customer_email: form.email,
-      customer_phone: form.phone,
-      orders: orderItems,
-      cost: {
-        shipping: "0.00",
-        tax: "Included",
-        total: totalPrice.toFixed(2),
+  try {
+    await emailjs.send(
+      SERVICE_ID,
+      OWNER_TEMPLATE_ID,
+      {
+        order_id: orderId,
+        to_email: OWNER_EMAIL,
+        email: OWNER_EMAIL,
+        customer_name: form.name,
+        customer_email: form.email,
+        customer_phone: form.phone,
+        orders: orderItems,
+        cost: {
+          shipping: "0.00",
+          tax: "Included",
+          total: totalPrice.toFixed(2),
+        },
+        delivery_method:
+          form.method === "delivery" ? "Home Delivery" : "Click & Collect",
+        delivery_address:
+          form.method === "delivery"
+            ? `${form.address}, ${form.postcode}`
+            : "Click & Collect",
+        notes: form.notes || "None",
       },
-      delivery_method:
-        form.method === "delivery" ? "Home Delivery" : "Click & Collect",
-      delivery_address:
-        form.method === "delivery"
-          ? `${form.address}, ${form.postcode}`
-          : "Click & Collect",
-      notes: form.notes || "None",
-    },
-    PUBLIC_KEY,
-  );
+      PUBLIC_KEY,
+    );
+    console.log('Owner email sent successfully!')
+  } catch (err) {
+    console.error('Owner email failed:', err)
+  }
 
   return orderId;
 }
